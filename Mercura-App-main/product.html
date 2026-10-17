@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<!DOCTYPE html><html lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head><link rel="stylesheet" href="styles.css">
+<script src="auth.js"></script>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="web_dashboard" name="shell-type">
@@ -121,7 +122,7 @@
 <link rel="stylesheet" href="motion.css"></head>
 <body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
 <!-- SIDEBAR (Matching Screen 4 Clean Standard) -->
-<aside class="mx-side"><a class="mx-brand" href="dashboard.html"><img alt="Mercura" src="img/logo.png"><div><strong>Mercura AI</strong><span>Inventory Intelligence</span></div></a><nav class="mx-nav"><p class="mx-label">Watch</p><a class="mx-link" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard<small>Today</small></span></a><a class="mx-link on" href="inventory.html"><span class="material-symbols-outlined">inventory_2</span><span>Inventory<small>412 products</small></span></a><a class="mx-link" href="sales.html"><span class="material-symbols-outlined">point_of_sale</span><span>Sales<small>This month</small></span></a><p class="mx-label">Decide</p><a class="mx-link" href="alerts.html"><span class="material-symbols-outlined">notification_important</span><span>Stock Alerts<small>Running out</small></span><span class="badge">5</span></a><a class="mx-link" href="insights.html"><span class="material-symbols-outlined">auto_awesome</span><span>AI Insights<small>What to do</small></span></a><a class="mx-link" href="cash.html"><span class="material-symbols-outlined">payments</span><span>Cash Flow<small>Money in stock</small></span></a><p class="mx-label">Store</p><a class="mx-link" href="settings.html"><span class="material-symbols-outlined">settings</span><span>Settings<small>Store profile</small></span></a></nav><a class="mx-merchant" href="settings.html"><img alt="Rajesh Sharma" src="img/rajesh.jpg"><div><b>Rajesh Sharma</b><span>Sharma Apparels</span></div><span class="mx-pro">Pro</span></a></aside>
+<aside class="mx-side"><a class="mx-brand" href="dashboard.html"><img alt="Mercura" src="img/logo.png"><div><strong>Mercura AI</strong><span>Driven by AI and controlled by you</span></div></a><nav class="mx-nav"><p class="mx-label">Watch</p><a class="mx-link" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard<small>Today</small></span></a><a class="mx-link on" href="inventory.html"><span class="material-symbols-outlined">inventory_2</span><span>Inventory<small>412 products</small></span></a><a class="mx-link" href="sales.html"><span class="material-symbols-outlined">point_of_sale</span><span>Sales<small>This month</small></span></a><p class="mx-label">Decide</p><a class="mx-link" href="alerts.html"><span class="material-symbols-outlined">notification_important</span><span>Stock Alerts<small>Running out</small></span><span class="badge">5</span></a><a class="mx-link" href="insights.html"><span class="material-symbols-outlined">auto_awesome</span><span>AI Insights<small>What to do</small></span></a><a class="mx-link" href="cash.html"><span class="material-symbols-outlined">payments</span><span>Cash Flow<small>Money in stock</small></span></a><p class="mx-label">Store</p><a class="mx-link" href="settings.html"><span class="material-symbols-outlined">settings</span><span>Settings<small>Store profile</small></span></a></nav><a class="mx-merchant" href="settings.html"><img alt="Rajesh Sharma" src="img/rajesh.jpg"><div><b>Rajesh Sharma</b><span>Sharma Apparels</span></div><span class="mx-pro">Pro</span></a></aside>
 <!-- MAIN AREA -->
 <div class="pl-64">
 <!-- GLOBAL TOP BAR (Single Consolidated Nav Bar matching Screen 4) -->
@@ -594,9 +595,9 @@
 <span class="material-symbols-outlined text-[20px]">lock</span>
 <span class="">Lock SKU Reorders</span>
 </button>
-<button class="inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-xl bg-transparent hover:bg-surface-container text-on-surface-variant font-label-md text-label-md font-semibold transition-colors w-full sm:w-auto">
-<span class="material-symbols-outlined text-[18px]">handshake</span>
-<span class="">Review Supplier Terms</span>
+<button type="button" class="inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-xl bg-transparent hover:bg-surface-container text-on-surface-variant font-label-md text-label-md font-semibold transition-colors w-full sm:w-auto" onclick="MercuraPO.open({id:'JKT-409', name:'Winter Heavy Jacket', supplier:'Nordic Wear Ltd.', units:47, cost:809, vel:0.34, lead:7})">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span class="">Send WhatsApp PO</span>
 </button>
 </div>
 <div class="flex items-center gap-2 text-on-surface-variant text-body-sm whitespace-nowrap">
@@ -623,8 +624,7 @@
 </div>
 </footer>
 </div>
+<div id="mercura-hybrid" class="px-margin pb-space-xl"></div>
 </main>
 </div>
-
-
-<script src="nav.js"></script></body></html>
+<script src="engine.js"></script><script src="whatsapp_po.js"></script><script src="hybrid_engine.js"></script><script src="nav.js"></script></body></html>

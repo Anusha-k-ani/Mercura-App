@@ -54,7 +54,7 @@
   }
 
   function statusLabel(s) {
-    return { healthy: "HEALTHY", low: "LOW STOCK", critical: "STOCKOUT", risk: "SLOW", dead: "DEAD STOCK" }[s] || s;
+    return { healthy: "HEALTHY", low: "LOW STOCK", critical: "STOCKOUT", risk: "SLOW", dead: "DEAD STOCK", reorder: "REORDER" }[s] || s;
   }
 
   function thumb(s, cls) {
@@ -82,7 +82,7 @@
     var groups = [
       ["Watch", [
         ["dashboard", "dashboard", "Dashboard", "Today’s picture"],
-        ["inventory", "inventory_2", "Inventory", "412 products, 7 a page"],
+        ["inventory", "inventory_2", "Inventory", list.length + " products"],
         ["sales", "point_of_sale", "Sales", "What moved this month"]
       ]],
       ["Decide", [
@@ -100,7 +100,7 @@
       ? '<button data-act="goto" data-id="inventory">Inventory</button><span>/</span><b>' + esc(route().sku) + "</b>"
       : "<b>" + title + "</b>";
     return '<div class="app"><aside class="side">' +
-      '<div class="brand-row"><img class="logo" alt="Mercura" src="img/logo.png"><div><strong>Mercura AI</strong><span>Inventory Intelligence</span></div></div>' +
+      '<div class="brand-row"><img class="logo" alt="Mercura" src="img/logo.png"><div><strong>Mercura AI</strong><span>Driven by AI and controlled by you</span></div></div>' +
       '<nav class="nav">' + groups.map(function (g) {
         return '<p class="nav-label">' + g[0] + "</p>" + g[1].map(function (n) { return navButton(n, here, openAlerts); }).join("");
       }).join("") + '<p class="nav-label">Store</p>' + navButton(settings, here, openAlerts) + "</nav>" +
@@ -115,7 +115,7 @@
     var list = skus();
     var k = M.kpis(list, ui.channel);
     var recs = M.recommendations(list, actions).slice(0, 3);
-    var weeks = [42000, 48000, 51000, 44400].map(function (n) { return Math.round(n * (ui.channel === "all" ? 1 : { shopify: 0.46, pos: 0.38, warehouse: 0.16 }[ui.channel])); });
+    var weeks = [0.22, 0.24, 0.26, 0.28].map(function (w) { return Math.round(k.sales * w); });
     var max = Math.max.apply(null, weeks);
     var total = k.healthy + k.low + k.risk + k.dead;
     var parts = [
@@ -178,14 +178,14 @@
       dir: down ? "down" : "up",
       margin: Math.round(s.margin * 100),
       age: s.age,
-      note: s.status === "healthy" ? "Steady sell-through" : s.status === "low" || s.status === "critical" ? "Cover is short. Reorder is your call." : "Capital is sitting. Worth a discount.",
+      note: s.status === "reorder" ? "Sold out. Reorder is ready." : s.status === "healthy" ? "Steady sell-through" : s.status === "low" || s.status === "critical" ? "Cover is short. Reorder is your call." : "Capital is sitting. Worth a discount.",
       icon: s.status === "healthy" ? "verified" : s.status === "low" || s.status === "critical" ? "alarm" : "timelapse",
       tone: s.status === "healthy" ? "ok" : s.status === "low" || s.status === "critical" ? "warn" : "bad",
       bar: Math.max(10, Math.min(92, Math.round(s.units / 50 * 100))),
       barTone: s.status === "healthy" ? "ok" : s.status === "low" || s.status === "critical" ? "mid" : "bad",
       status: labels[s.status] || s.status,
       st: s.status === "critical" ? "low" : s.status === "risk" ? "dead" : s.status,
-      action: s.status === "dead" ? "Discount" : s.status === "low" || s.status === "critical" ? "Reorder" : "View"
+      action: s.status === "reorder" || s.status === "low" || s.status === "critical" ? "Reorder" : s.status === "dead" ? "Discount" : "View"
     };
   }
 
@@ -337,6 +337,7 @@
   }
 
   function why(s) {
+    if (s.status === "reorder") return "Sold out. The status is reorder.";
     if (s.status === "dead") return "This pile has barely sold for " + s.age + " days. Buying more would trap another PO in the same season.";
     if (s.status === "critical") return "Cover is " + s.days.toFixed(1) + " days and " + s.supplier + " needs " + s.lead + ". The gap is a stockout, not a guess.";
     if (s.status === "low") return "Under 5 days of cover at the current run rate. Still your call whether to reorder.";
@@ -345,6 +346,7 @@
   }
   function advice(s) {
     if (s.clearance) return "Clearance is already planned at " + Math.round(s.clearance * 100) + "%. Watch whether units actually start moving before you buy again.";
+    if (s.status === "reorder") return "Send the restock order. Nothing is left on the shelf.";
     if (s.status === "dead" || s.status === "risk") return "Plan a 15% markdown or a bundle. Lock reorders until on-hand stock drops.";
     if (s.status === "critical" || s.status === "low") return "Copy the note and call the supplier. Mercura does not send the purchase order.";
     return "No discount and no extra buy this week.";
@@ -354,7 +356,7 @@
     var list = skus().slice().sort(function (a, b) { return b.vel - a.vel; });
     var k = M.kpis(list, ui.channel);
     var cut = slicePage(list);
-    return '<div class="head"><div><div class="kicker">October</div><h1>Sales</h1><p class="muted">Same 412 products, seven to a page, fastest sellers first.</p></div></div>' +
+    return '<div class="head"><div><div class="kicker">October</div><h1>Sales</h1><p class="muted">' + list.length + ' products, fastest sellers first.</p></div></div>' +
       pills(ui.channel, [["all", "All"], ["shopify", "Shopify"], ["pos", "POS"], ["warehouse", "Warehouse"]], "channel") +
       '<div class="grid-3"><article class="kpi"><div class="label">Sales</div><div class="num">' + M.inr(k.sales) + '</div></article>' +
       '<article class="kpi"><div class="label">Profit</div><div class="num">' + M.inr(k.profit) + '</div></article>' +
@@ -391,7 +393,7 @@
   }
 
   function login() {
-    return '<div class="login"><section class="hero"><div><div class="brand-row"><img class="logo" alt="Mercura" src="img/logo.png"><div><strong>Mercura AI</strong><span>Inventory Intelligence</span></div></div>' +
+    return '<div class="login"><section class="hero"><div><div class="brand-row"><img class="logo" alt="Mercura" src="img/logo.png"><div><strong>Mercura AI</strong><span>Driven by AI and controlled by you</span></div></div>' +
       "<h1>Smarter inventory.<br><em>Better decisions.</em></h1><p class=\"lead\">For a retailer who is tired of finding out a jacket died in the warehouse, or that shoes will stock out before the supplier truck arrives.</p>" +
       '<div class="questions"><article><strong>What is happening?</strong><span>Inventory, sales, profit, and capital at risk.</span></article>' +
       '<article><strong>What is becoming risky?</strong><span>Dead stock and stockouts, with the rupee amount.</span></article>' +

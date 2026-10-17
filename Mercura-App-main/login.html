@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="auth.js"></script>
+  <title>Create Merchant Account — Mercura AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: "Plus Jakarta Sans", Inter, sans-serif;
+      color: #F8F8F6;
+      background: linear-gradient(135deg, #111827 0%, #202B3A 55%, #3B352B 100%) fixed;
+    }
+    .ticker {
+      overflow: hidden;
+      display: flex;
+      border-bottom: 1px solid rgba(212,175,55,.28);
+      background: rgba(11,31,42,.72);
+      padding: 14px 0;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 3rem;
+      flex-shrink: 0;
+      min-width: 100%;
+      padding-right: 3rem;
+      animation: marqueeRoll 22s linear infinite;
+    }
+    .ticker-track span {
+      font-family: Syne, "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      letter-spacing: .16em;
+      color: #D4AF37;
+      font-size: 18px;
+      white-space: nowrap;
+    }
+    @keyframes marqueeRoll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-100%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track { animation: none; }
+    }
+    main { min-height: calc(100vh - 52px); display: grid; place-items: center; padding: 28px 18px; }
+    form {
+      width: min(440px, 100%);
+      color: #1F2937;
+      border-radius: 16px;
+      padding: 28px 28px 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92));
+      border: 1px solid rgba(255,255,255,.25);
+      box-shadow: 0 12px 35px -8px rgba(0,0,0,.45), inset 0 1px 0 #fff;
+    }
+    h1 {
+      margin: 0; font-family: Syne, "Plus Jakarta Sans", sans-serif;
+      font-size: 24px; letter-spacing: -.03em; color: #0B1F2A;
+    }
+    .sub { margin: 6px 0 18px; color: #4B5563; font-size: 14px; }
+    label { display: block; font-size: 13px; font-weight: 700; margin: 12px 0 6px; color: #0B1F2A; }
+    .field {
+      display: flex; align-items: center; gap: 8px;
+      background: #F8F8F6; border: 1px solid #e7e5e4; border-radius: 12px;
+      padding: 0 12px; min-height: 46px;
+    }
+    .field:focus-within { border-color: #D4AF37; box-shadow: 0 0 0 3px rgba(212,175,55,.22); }
+    .field svg { flex: none; color: #94A3B8; }
+    input {
+      flex: 1; border: 0; outline: 0; background: transparent;
+      font: inherit; font-size: 14px; color: #1F2937; min-width: 0; padding: 12px 0;
+    }
+    input::placeholder { color: #94A3B8; }
+    .cc {
+      display: flex; align-items: center;
+      font-weight: 700; font-size: 14px; color: #0B1F2A;
+      padding-right: 8px; border-right: 1px solid #e7e5e4; margin-right: 4px;
+    }
+    .eye { border: 0; background: transparent; color: #94A3B8; cursor: pointer; padding: 0; display: grid; }
+    button.register {
+      width: 100%; margin-top: 18px; border: 0; cursor: pointer;
+      background: linear-gradient(135deg, #D4AF37 0%, #E5C158 100%);
+      color: #0B1F2A; font: inherit; font-weight: 800;
+      border-radius: 12px; min-height: 46px;
+      box-shadow: 0 4px 14px -2px rgba(212,175,55,.45);
+    }
+    button.register:hover { filter: brightness(1.06); }
+    .err { min-height: 18px; margin: 8px 0 0; color: #EF4444; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track"><span>MERCURA AI</span><span>DRIVEN BY AI AND CONTROLLED BY YOU</span><span>MERCURA AI</span><span>DRIVEN BY AI AND CONTROLLED BY YOU</span><span>MERCURA AI</span><span>DRIVEN BY AI AND CONTROLLED BY YOU</span></div>
+    <div class="ticker-track"><span>MERCURA AI</span><span>DRIVEN BY AI AND CONTROLLED BY YOU</span><span>MERCURA AI</span><span>DRIVEN BY AI AND CONTROLLED BY YOU</span><span>MERCURA AI</span><span>DRIVEN BY AI AND CONTROLLED BY YOU</span></div>
+  </div>
+  <main>
+    <form id="merchant-form" autocomplete="on">
+      <h1>Create Merchant Account</h1>
+      <p class="sub">Driven by AI and controlled by you</p>
+
+      <label for="name">Full Name</label>
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 19c1.4-3 3.8-4.5 7-4.5S17.6 16 19 19"/></svg>
+        <input id="name" name="name" autocomplete="name" placeholder="Enter your full name" required>
+      </div>
+
+      <label for="phone">Mobile Number</label>
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 3h4l1.5 4-2.2 1.3a12 12 0 0 0 5.4 5.4L17 11.5 21 13v4a2 2 0 0 1-2.2 2A16 16 0 0 1 5 5.2 2 2 0 0 1 7 3z"/></svg>
+        <span class="cc">+91</span>
+        <input id="phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="Enter your mobile number" maxlength="10" required>
+      </div>
+
+      <label for="shop">Shop Name</label>
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 10h16v9H4z"/><path d="M3 10l2-5h14l2 5"/><path d="M10 19v-5h4v5"/></svg>
+        <input id="shop" name="shop" placeholder="Enter your shop name" required>
+      </div>
+
+      <label for="username">Username</label>
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 19c1.4-3 3.8-4.5 7-4.5S17.6 16 19 19"/></svg>
+        <input id="username" name="username" autocomplete="username" placeholder="Enter your username" required>
+      </div>
+
+      <label for="password">Password</label>
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Create a strong password" required>
+        <button class="eye" type="button" id="eye" aria-label="Show password">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/></svg>
+        </button>
+      </div>
+
+      <label for="address">Shop Address</label>
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg>
+        <input id="address" name="address" autocomplete="street-address" placeholder="Enter your shop address" required>
+      </div>
+
+      <button class="register" type="submit">Register</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+  </main>
+  <script>
+    var form = document.getElementById("merchant-form");
+    var err = document.getElementById("err");
+    var password = document.getElementById("password");
+    document.getElementById("eye").addEventListener("click", function () {
+      password.type = password.type === "password" ? "text" : "password";
+    });
+    document.getElementById("phone").addEventListener("input", function (e) {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = form.name.value.trim();
+      var phone = form.phone.value.trim();
+      var shop = form.shop.value.trim();
+      var username = form.username.value.trim();
+      var pass = password.value;
+      var address = form.address.value.trim();
+      if (phone.length !== 10) { err.textContent = "Enter a 10-digit mobile number."; form.phone.focus(); return; }
+      if (pass.length < 6) { err.textContent = "Use at least 6 characters for the password."; password.focus(); return; }
+      localStorage.setItem("mercura_merchant", JSON.stringify({
+        name: name, phone: "+91" + phone, shop: shop, username: username, address: address
+      }));
+      sessionStorage.setItem("mercura-session", username);
+      sessionStorage.setItem("mercura-entered", "1");
+      location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

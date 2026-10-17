@@ -1,4 +1,14 @@
 (function () {
+  if (!document.getElementById("copilot-panel") && !window.MercuraCopilot) {
+    var engine = document.createElement("script");
+    engine.src = "engine.js";
+    engine.onload = function () {
+      var chat = document.createElement("script");
+      chat.src = "copilot.js";
+      document.body.appendChild(chat);
+    };
+    document.body.appendChild(engine);
+  }
   var routes = [
     ["Dashboard", "dashboard.html"],
     ["Inventory", "inventory.html"],
@@ -16,7 +26,7 @@
   });
   document.querySelectorAll("aside img").forEach(function (logo) {
     logo.style.cursor = "pointer";
-    logo.addEventListener("click", function () { location.href = "dashboard.html"; });
+    logo.addEventListener("click", function () { location.href = "index.html"; });
   });
   document.querySelectorAll("form").forEach(function (form) {
     if (form.querySelector("input[type='password'], input[type='email']")) {
